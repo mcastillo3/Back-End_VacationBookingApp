@@ -17,7 +17,7 @@ public class Country {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "country_id")
+    @Column(name = "country_id", nullable = false)
     private Long id;
 
     @Column(name = "country")
@@ -31,6 +31,6 @@ public class Country {
     @UpdateTimestamp
     private Date last_update;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "country")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "country", fetch = FetchType.LAZY)
     private Set<Division> divisions;
 }
