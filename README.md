@@ -5,3 +5,4 @@ Imported RestDataConfig file into the config directory.
 Imported application.properties into the resources directory.
 Defined attributes for each entity class according to the UML table. Established relationships according to the ERD.
 Created StatusType Enum class.
+Created repository interfaces for each entity class, added JpaRepository, and CrossOrigin support.
