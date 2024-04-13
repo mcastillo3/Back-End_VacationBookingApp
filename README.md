@@ -8,3 +8,7 @@ Created StatusType Enum class.
 Created repository interfaces for each entity class, added JpaRepository, and CrossOrigin support.
 Added RepositoryRestResource support to Country, Excursion, and Vacations interfaces.
 Corrected @Table name path on Excursion entity.
+Created a Purchase and PurchaseResponse class in the services directory.
+Created a CheckoutService interface and a CheckoutServiceImpl class in the services directory.
+Added a "convenience" method called add() to Customer and Cart entities.
+Created a CheckoutController in controllers directory.
