@@ -15,3 +15,7 @@ Created a CheckoutController in controllers directory.
 Moved Purchase and PurchaseResponse classes to a new directory called 'dto'.
 Edited code in CheckoutController to add cartItems to cart and vica-versa.
 Added code to CheckoutController to display a message for an empty cart.
+Added validation, 'nullable=false', to Customer class fields: name, address, and phone.
+Created a bootstrap directory with a bootstrap class to run sample data.
+Added 5 customers as sample data.
+Edited Customer entity and added a constructor for name, address, and phone.

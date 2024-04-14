@@ -54,6 +54,16 @@ public class Customer {
     @Column(name = "division_id")
     private Long division_id;
 
+    public Customer() {}
+
+    public Customer(String firstName, String lastName, String address, String postal_code, String phone) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.address = address;
+        this.postal_code = postal_code;
+        this.phone = phone;
+    }
+
     public void setDivision(Division division) {
         setDivision_id(division.getId());
         this.divisions = division;
