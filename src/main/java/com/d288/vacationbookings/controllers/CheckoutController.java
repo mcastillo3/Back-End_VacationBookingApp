@@ -1,8 +1,8 @@
 package com.d288.vacationbookings.controllers;
 
 import com.d288.vacationbookings.services.CheckoutService;
-import com.d288.vacationbookings.services.Purchase;
-import com.d288.vacationbookings.services.PurchaseResponse;
+import com.d288.vacationbookings.dto.Purchase;
+import com.d288.vacationbookings.dto.PurchaseResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

@@ -32,6 +32,7 @@ public class Cart {
     private Integer party_size;
 
     @Column(name = "status")
+    @Enumerated(EnumType.STRING)
     private StatusType status;
 
     @Column(name = "create_date")
@@ -44,16 +45,17 @@ public class Cart {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "customer_id", nullable = false, insertable = false, updatable = false)
-    private Customer customer;
+    private Customer customers;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "cart")
-    private Set<CartItem> cartItem;
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "cart")
+    private Set<CartItem> cartItem = new HashSet<>();
 
     @Column(name = "customer_id")
     private Long customer_id;
+
     public void setCustomer(Customer customer) {
         setCustomer_id(customer.getId());
-        this.customer = customer;
+        this.customers = customer;
     }
 
     public void add(CartItem item) {

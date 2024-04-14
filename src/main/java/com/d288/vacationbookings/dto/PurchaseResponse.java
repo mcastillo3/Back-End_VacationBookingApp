@@ -1,4 +1,4 @@
-package com.d288.vacationbookings.services;
+package com.d288.vacationbookings.dto;
 
 import lombok.Data;
 import lombok.NonNull;
@@ -7,5 +7,5 @@ import lombok.NonNull;
 public class PurchaseResponse {
 
     @NonNull
-    private String cartTrackingNumber;
+    private String orderTrackingNumber;
 }

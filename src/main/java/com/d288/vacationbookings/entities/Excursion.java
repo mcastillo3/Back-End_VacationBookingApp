@@ -8,6 +8,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -40,18 +41,19 @@ public class Excursion {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "vacation_id", nullable = false, insertable = false, updatable = false)
-    private Vacation vacation;
+    private Vacation vacations;
 
     @ManyToMany
     @JoinTable(name = "excursion_cartitem",
-            joinColumns = @JoinColumn(name = "excursion_id"),
-            inverseJoinColumns = @JoinColumn(name = "cart_item_id"))
-    private Set<CartItem> cartitems;
+            joinColumns = @JoinColumn(name = "cart_item_id"),
+            inverseJoinColumns = @JoinColumn(name = "excursion_id"))
+    private Set<CartItem> cartItem = new HashSet<>();
 
     @Column(name = "vacation_id")
     private Long vacation_id;
-    public void setVacation(Vacation vacation) {
-        setVacation_id(vacation.getId());
-        this.vacation = vacation;
+
+    public void setVacation(Vacation new_vacation) {
+        setVacation_id(vacations.getId());
+        this.vacations = new_vacation;
     }
 }

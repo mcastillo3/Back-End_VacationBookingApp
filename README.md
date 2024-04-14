@@ -12,3 +12,6 @@ Created a Purchase and PurchaseResponse class in the services directory.
 Created a CheckoutService interface and a CheckoutServiceImpl class in the services directory.
 Added a "convenience" method called add() to Customer and Cart entities.
 Created a CheckoutController in controllers directory.
+Moved Purchase and PurchaseResponse classes to a new directory called 'dto'.
+Edited code in CheckoutController to add cartItems to cart and vica-versa.
+Added code to CheckoutController to display a message for an empty cart.

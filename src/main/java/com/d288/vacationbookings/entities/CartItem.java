@@ -7,6 +7,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -22,10 +23,15 @@ public class CartItem {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "vacation_id", nullable = false, insertable = false, updatable = false)
-    private Vacation vacation;
+    private Vacation vacations;
 
-    @ManyToMany(mappedBy = "cartitems")
-    private Set<Excursion> excursions;
+//    @ManyToMany()
+//    @JoinTable(name = "excursion_cartitem",
+//            joinColumns = @JoinColumn(name = "excursion_id"),
+//            inverseJoinColumns = @JoinColumn(name = "cart_item_id"))
+//    @ManyToMany(mappedBy = "cartItem", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "cartItem")
+    private Set<Excursion> excursions = new HashSet<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cart_id", nullable = false, insertable = false, updatable = false)
@@ -41,6 +47,7 @@ public class CartItem {
 
     @Column(name = "cart_id")
     private Long cart_id;
+
     public void setCart(Cart cart) {
         setCart_id(cart.getId());
         this.cart = cart;
@@ -48,8 +55,9 @@ public class CartItem {
 
     @Column(name = "vacation_id")
     private Long vacation_id;
+
     public void setVacation(Vacation vacation) {
         setVacation_id(vacation.getId());
-        this.vacation = vacation;
+        this.vacations = vacation;
     }
 }

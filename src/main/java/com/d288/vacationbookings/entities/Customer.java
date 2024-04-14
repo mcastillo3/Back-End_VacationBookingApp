@@ -21,19 +21,19 @@ public class Customer {
     @Column(name = "customer_id")
     private Long id;
 
-    @Column(name = "customer_first_name")
+    @Column(name = "customer_first_name", nullable = false)
     private String firstName;
 
-    @Column(name = "customer_last_name")
+    @Column(name = "customer_last_name", nullable = false)
     private String lastName;
 
-    @Column(name = "address")
+    @Column(name = "address", nullable = false)
     private String address;
 
-    @Column(name = "postal_code")
+    @Column(name = "postal_code", nullable = false)
     private String postal_code;
 
-    @Column(name = "phone")
+    @Column(name = "phone", nullable = false)
     private String phone;
 
     @Column(name = "create_date")
@@ -44,18 +44,19 @@ public class Customer {
     @UpdateTimestamp
     private Date last_update;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "division_id", nullable = false, insertable = false, updatable = false)
-    private Division division;
+    private Division divisions;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "customer")
-    private Set<Cart> carts;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "customers")
+    private Set<Cart> carts = new HashSet<>();
 
     @Column(name = "division_id")
     private Long division_id;
+
     public void setDivision(Division division) {
         setDivision_id(division.getId());
-        this.division = division;
+        this.divisions = division;
     }
 
     public void add(Cart cart) {
