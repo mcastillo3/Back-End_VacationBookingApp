@@ -19,3 +19,4 @@ Added validation, 'nullable=false', to Customer class fields: name, address, and
 Created a bootstrap directory with a bootstrap class to run sample data.
 Added 5 customers as sample data.
 Edited Customer entity and added a constructor for name, address, and phone.
+Fixed 'division' mapping in Customer entity.

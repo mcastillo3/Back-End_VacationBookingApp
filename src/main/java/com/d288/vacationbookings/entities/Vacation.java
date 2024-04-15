@@ -38,6 +38,29 @@ public class Vacation {
     @Column(name = "last_update")
     private Date last_update;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "vacations")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "vacation")
     private Set<Excursion> excursions = new HashSet<>();
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "vacation")
+    private Set<CartItem> cartItems = new HashSet<>();
+
+    public void add(Excursion excursion) {
+        if (excursion != null) {
+            if (excursions == null) {
+                excursions = new HashSet<>();
+            }
+            excursions.add(excursion);
+            excursion.setVacation(this);
+        }
+    }
+
+    public void add(CartItem cartItem) {
+        if (cartItem != null) {
+            if (cartItems == null) {
+                cartItems = new HashSet<>();
+            }
+            cartItems.add(cartItem);
+            cartItem.setVacation(this);
+        }
+    }
 }

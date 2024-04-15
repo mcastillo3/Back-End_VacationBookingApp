@@ -7,8 +7,6 @@ import com.d288.vacationbookings.entities.Division;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
-
 @Component
 public class BootStrapData implements CommandLineRunner {
 
@@ -34,35 +32,40 @@ public class BootStrapData implements CommandLineRunner {
                     "Hamato",
                     "270 Lafayette Street",
                     "10012",
-                    "888-TURTLES");
+                    "888-TURTLES",
+                    new_york);
 
             Customer customer2 = new Customer(
                     "Ralph",
                     "Hamato",
                     "270 Lafayette Street",
                     "10012",
-                    "888-TURTLES");
+                    "888-TURTLES",
+                    new_york);
 
             Customer customer3 = new Customer(
                     "Leo",
                     "Hamato",
                     "270 Lafayette Street",
                     "10012",
-                    "888-TURTLES");
+                    "888-TURTLES",
+                    new_york);
 
             Customer customer4 = new Customer(
                     "Mikey",
                     "Hamato",
                     "270 Lafayette Street",
                     "10012",
-                    "888-TURTLES");
+                    "888-TURTLES",
+                    new_york);
 
             Customer customer5 = new Customer(
                     "Splinter",
                     "Hamato",
                     "270 Lafayette Street",
                     "10012",
-                    "888-TURTLES");
+                    "888-TURTLES",
+                    new_york);
 
             customer1.setDivision(new_york);
             customer2.setDivision(new_york);

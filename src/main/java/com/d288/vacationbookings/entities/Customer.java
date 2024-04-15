@@ -46,9 +46,9 @@ public class Customer {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "division_id", nullable = false, insertable = false, updatable = false)
-    private Division divisions;
+    private Division division;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "customers")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "customer")
     private Set<Cart> carts = new HashSet<>();
 
     @Column(name = "division_id")
@@ -56,17 +56,18 @@ public class Customer {
 
     public Customer() {}
 
-    public Customer(String firstName, String lastName, String address, String postal_code, String phone) {
+    public Customer(String firstName, String lastName, String address, String postal_code, String phone, Division division) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.address = address;
         this.postal_code = postal_code;
         this.phone = phone;
+        this.division = division;
     }
 
     public void setDivision(Division division) {
         setDivision_id(division.getId());
-        this.divisions = division;
+        this.division = division;
     }
 
     public void add(Cart cart) {

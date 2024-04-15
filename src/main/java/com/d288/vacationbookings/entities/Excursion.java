@@ -39,21 +39,25 @@ public class Excursion {
     @UpdateTimestamp
     private Date last_update;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne()
     @JoinColumn(name = "vacation_id", nullable = false, insertable = false, updatable = false)
-    private Vacation vacations;
+    private Vacation vacation;
 
-    @ManyToMany
+    // testing JoinTable
+    // @ManyToMany(mappedBy = "excursions", cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "excursion_cartitem",
             joinColumns = @JoinColumn(name = "cart_item_id"),
             inverseJoinColumns = @JoinColumn(name = "excursion_id"))
-    private Set<CartItem> cartItem = new HashSet<>();
+    private Set<CartItem> cartItems;
 
     @Column(name = "vacation_id")
     private Long vacation_id;
 
-    public void setVacation(Vacation new_vacation) {
-        setVacation_id(vacations.getId());
-        this.vacations = new_vacation;
+    public Excursion() {}
+
+    public void setVacation(Vacation vacation) {
+        setVacation_id(vacation.getId());
+        this.vacation = vacation;
     }
 }

@@ -21,19 +21,17 @@ public class CartItem {
     @Column(name = "cart_item_id")
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne()
     @JoinColumn(name = "vacation_id", nullable = false, insertable = false, updatable = false)
-    private Vacation vacations;
+    private Vacation vacation;
 
-//    @ManyToMany()
-//    @JoinTable(name = "excursion_cartitem",
-//            joinColumns = @JoinColumn(name = "excursion_id"),
-//            inverseJoinColumns = @JoinColumn(name = "cart_item_id"))
-//    @ManyToMany(mappedBy = "cartItem", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @ManyToMany(mappedBy = "cartItem")
-    private Set<Excursion> excursions = new HashSet<>();
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "excursion_cartitem",
+            joinColumns = @JoinColumn(name = "cart_item_id"),
+            inverseJoinColumns = @JoinColumn(name = "excursion_id"))
+    private Set<Excursion> excursions;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne()
     @JoinColumn(name = "cart_id", nullable = false, insertable = false, updatable = false)
     private Cart cart;
 
@@ -58,6 +56,7 @@ public class CartItem {
 
     public void setVacation(Vacation vacation) {
         setVacation_id(vacation.getId());
-        this.vacations = vacation;
+        this.vacation = vacation;
     }
+
 }

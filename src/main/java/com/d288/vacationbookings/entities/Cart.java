@@ -1,6 +1,7 @@
 package com.d288.vacationbookings.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
@@ -29,6 +30,7 @@ public class Cart {
     private BigDecimal package_price;
 
     @Column(name = "party_size")
+    @Min(value = 1, message = "Party size must be greater than 0.")
     private Integer party_size;
 
     @Column(name = "status")
@@ -43,27 +45,27 @@ public class Cart {
     @UpdateTimestamp
     private Date last_update;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne()
     @JoinColumn(name = "customer_id", nullable = false, insertable = false, updatable = false)
-    private Customer customers;
+    private Customer customer;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "cart")
-    private Set<CartItem> cartItem = new HashSet<>();
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "cart")
+    private Set<CartItem> cartItems = new HashSet<>();
 
     @Column(name = "customer_id")
     private Long customer_id;
 
     public void setCustomer(Customer customer) {
         setCustomer_id(customer.getId());
-        this.customers = customer;
+        this.customer = customer;
     }
 
     public void add(CartItem item) {
         if (item != null) {
-            if (cartItem == null) {
-                cartItem = new HashSet<>();
+            if (cartItems == null) {
+                cartItems = new HashSet<>();
             }
-            cartItem.add(item);
+            cartItems.add(item);
             item.setCart(this);
         }
     }

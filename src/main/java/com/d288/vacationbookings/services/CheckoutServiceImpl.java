@@ -1,5 +1,6 @@
 package com.d288.vacationbookings.services;
 
+import com.d288.vacationbookings.dao.CartItemRepository;
 import com.d288.vacationbookings.dao.CartRepository;
 import com.d288.vacationbookings.dao.CustomerRepository;
 import com.d288.vacationbookings.dto.Purchase;
@@ -15,50 +16,61 @@ import java.util.UUID;
 @Service
 public class CheckoutServiceImpl implements CheckoutService {
 
-    private CustomerRepository customerRepository;
     private CartRepository cartRepository;
+    private CustomerRepository customerRepository;
+    private CartItemRepository cartItemRepository;
 
     @Autowired
-    public CheckoutServiceImpl (CustomerRepository customerRepository, CartRepository cartRepository) {
-        this.customerRepository = customerRepository;
+    public CheckoutServiceImpl (CartRepository cartRepository,
+                                CustomerRepository customerRepository,
+                                CartItemRepository cartItemRepository) {
         this.cartRepository = cartRepository;
+        this.customerRepository = customerRepository;
+        this.cartItemRepository = cartItemRepository;
     }
 
     @Override
     @Transactional
     public PurchaseResponse placeOrder(Purchase purchase) {
 
-        // retrieve the order info from dto
+        // retrieve the order information info from dto
         Cart cart = purchase.getCart();
+        cart.setStatus(StatusType.ordered);
+        Customer customer = purchase.getCustomer();
 
-        // generate tracking number
-        String orderTrackingNumber = generateOrderTrackingNumber();
-        cart.setOrderTrackingNumber(orderTrackingNumber);
-
-        // populate cart with cartItems
+        // populate and set cart with cartItems
         Set<CartItem> cartItems = purchase.getCartItems();
         cartItems.forEach(item -> {
             item.setCart(cart);
-            cart.setCartItem(cartItems);
-            cart.add(item);
+
+            Vacation vacation = item.getVacation();
+            Set<Excursion> excursions = item.getExcursions();
+            for (Excursion excursion : excursions) {
+                excursion.setVacation(vacation);
+            }
+/*            item.getExcursions().forEach(excursion -> {
+                excursion.setVacation(item.getVacation());
+                excursion.getCartItems().add(item);
+            });*/
         });
+        //customer.add(cart);
 
-        // populate customer with cart
-        Customer customer = purchase.getCustomer();
-        customer.add(cart);
+        // check if cart is empty to either get a tracking number or 'empty' message
+        String orderTrackingNumber = "";
+        if (purchase.getCart() == null || purchase.getCartItems().isEmpty()) {
+            orderTrackingNumber = "Cart is empty";
+        } else {
+            orderTrackingNumber = generateOrderTrackingNumber();
+            cart.setOrderTrackingNumber(orderTrackingNumber);
+        }
 
-        // save to the database
-        // customerRepository.save(customer);
-        //cartRepository.save(cart);
-        //cart.setStatus(StatusType.ordered);
+        // save cart to database
+        cartRepository.save(cart);
 
         // return a response
-        if (purchase.getCart() == null || purchase.getCartItems().isEmpty()) {
-            return new PurchaseResponse("Cart is Empty");
-        } else {
-            return new PurchaseResponse(orderTrackingNumber);
-        }
+        return new PurchaseResponse(orderTrackingNumber);
     }
+
 
     private String generateOrderTrackingNumber() {
 
