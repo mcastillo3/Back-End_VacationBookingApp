@@ -2,6 +2,7 @@ package com.d288.vacationbookings.entities;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -14,11 +15,12 @@ import java.util.Set;
 @Table(name="customers")
 @Getter
 @Setter
+@NoArgsConstructor
 public class Customer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "customer_id")
+    @Column(name = "customer_id", nullable = false)
     private Long id;
 
     @Column(name = "customer_first_name", nullable = false)
@@ -51,11 +53,6 @@ public class Customer {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "customer")
     private Set<Cart> carts = new HashSet<>();
 
-    @Column(name = "division_id")
-    private Long division_id;
-
-    public Customer() {}
-
     public Customer(String firstName, String lastName, String address, String postal_code, String phone, Division division) {
         this.firstName = firstName;
         this.lastName = lastName;
@@ -63,20 +60,5 @@ public class Customer {
         this.postal_code = postal_code;
         this.phone = phone;
         this.division = division;
-    }
-
-    public void setDivision(Division division) {
-        setDivision_id(division.getId());
-        this.division = division;
-    }
-
-    public void add(Cart cart) {
-        if (cart != null) {
-            if (carts == null) {
-                carts = new HashSet<>();
-            }
-            carts.add(cart);
-            cart.setCustomer(this);
-        }
     }
 }

@@ -3,6 +3,7 @@ package com.d288.vacationbookings.entities;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -16,11 +17,12 @@ import java.util.Set;
 @Table(name="carts")
 @Getter
 @Setter
+@NoArgsConstructor
 public class Cart {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "cart_id")
+    @Column(name = "cart_id", nullable = false)
     private Long id;
 
     @Column(name = "order_tracking_number")
@@ -46,19 +48,11 @@ public class Cart {
     private Date last_update;
 
     @ManyToOne()
-    @JoinColumn(name = "customer_id", nullable = false, insertable = false, updatable = false)
+    @JoinColumn(name = "customer_id", nullable = false)
     private Customer customer;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "cart")
     private Set<CartItem> cartItems = new HashSet<>();
-
-    @Column(name = "customer_id")
-    private Long customer_id;
-
-    public void setCustomer(Customer customer) {
-        setCustomer_id(customer.getId());
-        this.customer = customer;
-    }
 
     public void add(CartItem item) {
         if (item != null) {

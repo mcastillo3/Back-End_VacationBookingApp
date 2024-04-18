@@ -2,6 +2,7 @@ package com.d288.vacationbookings.entities;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -15,11 +16,12 @@ import java.util.Set;
 @Table(name="excursions")
 @Getter
 @Setter
+@NoArgsConstructor
 public class Excursion {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "excursion_id")
+    @Column(name = "excursion_id", nullable = false)
     private Long id;
 
     @Column(name = "excursion_title")
@@ -40,24 +42,11 @@ public class Excursion {
     private Date last_update;
 
     @ManyToOne()
-    @JoinColumn(name = "vacation_id", nullable = false, insertable = false, updatable = false)
+    @JoinColumn(name = "vacation_id", nullable = false)
     private Vacation vacation;
 
-    // testing JoinTable
-    // @ManyToMany(mappedBy = "excursions", cascade = CascadeType.ALL)
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "excursion_cartitem",
-            joinColumns = @JoinColumn(name = "cart_item_id"),
-            inverseJoinColumns = @JoinColumn(name = "excursion_id"))
-    private Set<CartItem> cartItems;
+    @ManyToMany(mappedBy = "excursions", cascade = CascadeType.ALL)
 
-    @Column(name = "vacation_id")
-    private Long vacation_id;
+    private Set<CartItem> cartitems;
 
-    public Excursion() {}
-
-    public void setVacation(Vacation vacation) {
-        setVacation_id(vacation.getId());
-        this.vacation = vacation;
-    }
 }
