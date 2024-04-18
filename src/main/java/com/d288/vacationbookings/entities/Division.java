@@ -2,6 +2,7 @@ package com.d288.vacationbookings.entities;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -14,11 +15,12 @@ import java.util.Set;
 @Table(name="divisions")
 @Getter
 @Setter
+@NoArgsConstructor
 public class Division {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "division_id")
+    @Column(name = "division_id", nullable = false)
     private Long id;
 
     @Column(name = "division")

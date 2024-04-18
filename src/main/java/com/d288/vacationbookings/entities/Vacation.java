@@ -2,6 +2,7 @@ package com.d288.vacationbookings.entities;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
@@ -13,11 +14,12 @@ import java.util.Set;
 @Table(name="vacations")
 @Getter
 @Setter
+@NoArgsConstructor
 public class Vacation {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "vacation_id")
+    @Column(name = "vacation_id", nullable = false)
     private Long id;
 
     @Column(name = "vacation_title")
@@ -38,29 +40,7 @@ public class Vacation {
     @Column(name = "last_update")
     private Date last_update;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "vacation")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "vacation", fetch = FetchType.LAZY)
     private Set<Excursion> excursions = new HashSet<>();
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "vacation")
-    private Set<CartItem> cartItems = new HashSet<>();
-
-    public void add(Excursion excursion) {
-        if (excursion != null) {
-            if (excursions == null) {
-                excursions = new HashSet<>();
-            }
-            excursions.add(excursion);
-            excursion.setVacation(this);
-        }
-    }
-
-    public void add(CartItem cartItem) {
-        if (cartItem != null) {
-            if (cartItems == null) {
-                cartItems = new HashSet<>();
-            }
-            cartItems.add(cartItem);
-            cartItem.setVacation(this);
-        }
-    }
 }

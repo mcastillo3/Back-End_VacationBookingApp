@@ -35,33 +35,27 @@ public class CheckoutServiceImpl implements CheckoutService {
 
         // retrieve the order information info from dto
         Cart cart = purchase.getCart();
-        cart.setStatus(StatusType.ordered);
-        Customer customer = purchase.getCustomer();
-
-        // populate and set cart with cartItems
         Set<CartItem> cartItems = purchase.getCartItems();
-        cartItems.forEach(item -> {
-            item.setCart(cart);
 
-            Vacation vacation = item.getVacation();
-            Set<Excursion> excursions = item.getExcursions();
-            for (Excursion excursion : excursions) {
-                excursion.setVacation(vacation);
-            }
-/*            item.getExcursions().forEach(excursion -> {
-                excursion.setVacation(item.getVacation());
-                excursion.getCartItems().add(item);
-            });*/
-        });
-        //customer.add(cart);
-
-        // check if cart is empty to either get a tracking number or 'empty' message
         String orderTrackingNumber = "";
-        if (purchase.getCart() == null || purchase.getCartItems().isEmpty()) {
+
+        // check for cart items and add to cart if any
+        if (cartItems.isEmpty()) {
             orderTrackingNumber = "Cart is empty";
         } else {
             orderTrackingNumber = generateOrderTrackingNumber();
             cart.setOrderTrackingNumber(orderTrackingNumber);
+            cartItems.forEach(item -> {
+                cart.add(item);
+
+                Vacation vacation = item.getVacation();
+                Set<Excursion> excursions = item.getExcursions();
+                for (Excursion excursion : excursions) {
+                    excursion.setVacation(vacation);
+                }
+
+            });
+            cart.setStatus(StatusType.ordered);
         }
 
         // save cart to database
